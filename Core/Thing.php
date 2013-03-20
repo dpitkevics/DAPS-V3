@@ -11,14 +11,15 @@
  * @author danpit134
  */
 namespace Core {
-
+    
     class Thing {
+        
         protected $_thingName;
         protected $_thingId;
         
         private $_data;
         
-        public function __construct($name, $id) {
+        public function __construct($name = 'default', $id = '00001') {
             $this->_thingName = $name;
             $this->_thingId = $id;
         }

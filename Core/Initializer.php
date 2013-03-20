@@ -14,7 +14,7 @@ namespace Core {
 
     class Initializer extends Thing {
         
-        protected static function Init($name, $id) {
+        protected static function Init($name = 'default', $id = '00001') {
             return new self($name, $id);
         }
         

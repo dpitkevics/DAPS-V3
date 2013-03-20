@@ -11,13 +11,15 @@
  * @author danpit134
  */
 namespace Core {
-
+    
+    use Core\Exceptions\Children as Exception;
+    
     require(dirname(__FILE__).'/Thing.php');
     require(dirname(__FILE__).'/Initializer.php');
-    
+          
     class Daps extends Initializer {
         
-        public $app = null;
+        public static $app = null;
         
         public static function Web($appName = 'default') {
             return new self($appName);
@@ -32,9 +34,13 @@ namespace Core {
         }
         
         public function Run() {
-            if (!$app)
-                $this->app = new Base\App();
-            return $this->app;
+            if (!self::$app)
+                self::$app = new Base\App($this->_thingName, rand(100, 999));
+            return self::$app;
+        }
+        
+        public static function App() {
+            return self::$app;
         }
         
         private function requiringClasses() {
@@ -43,8 +49,12 @@ namespace Core {
         
         private function autoload($class) {
             $filename = BASE_PATH . DS . $class . '.php';
+
             if (file_exists($filename))
                 require $filename;
+            else
+                throw new Exception\CoreException('We cannot find used class "{class}". Is file and class names correct?',
+                        array('{class}'=>$class));
         }
         
     }
